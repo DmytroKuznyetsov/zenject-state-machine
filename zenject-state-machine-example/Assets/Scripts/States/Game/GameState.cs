@@ -1,5 +1,7 @@
 using Core;
 using Services;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace States.Game
 {
@@ -21,6 +23,11 @@ namespace States.Game
         public async void Enter()
         {
             await _sceneLoadService.LoadSceneAsync("Game");
+
+            var handle = Addressables.LoadAssetAsync<GameObject>("GameCanvas");
+            var prefab = await handle.Task;
+            Object.Instantiate(prefab);
+
         }
     }
 }
