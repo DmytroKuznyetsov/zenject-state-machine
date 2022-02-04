@@ -9,11 +9,13 @@ namespace Core
 {
     public class StateMachine
     {
+        private readonly IInjectedPrefabsService _injectedPrefabsService;
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public StateMachine(ISceneLoadService sceneLoadService)
+        public StateMachine(ISceneLoadService sceneLoadService, IInjectedPrefabsService injectedPrefabsService)
         {
+            _injectedPrefabsService = injectedPrefabsService;
             var mainState = new MainState(
                 this,
                 sceneLoadService
@@ -21,7 +23,8 @@ namespace Core
 
             var gameState = new GameState(
                 this,
-                sceneLoadService
+                sceneLoadService,
+                injectedPrefabsService
             );
 
             _states = new Dictionary<Type, IExitableState>
